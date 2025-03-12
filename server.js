@@ -2,10 +2,18 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
+import cors from "cors";
 
-dotenv.config();
+env.config();
 connectDB();
-
+app.use(
+  cors({
+    origin: "http://127.0.0.1:5500", // Allow your frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed request methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+  })
+);
+dot;
 const app = express();
 app.use(express.json());
 app.use(cors());
