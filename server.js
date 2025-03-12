@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import cors from "cors";
 
-env.config();
+dotenv.config();
 connectDB();
 app.use(
   cors({
