@@ -9,13 +9,23 @@ router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPasswordPromise = bcrypt.hash(password, 8);
+    const userExists = await User.findOne({ email });
+
+    if (userExists) {
+      return res.status(400).json({ error: "Email already in use" });
+    }
+
+    const hashedPassword = await hashedPasswordPromise;
     const newUser = new User({ username, email, password: hashedPassword });
 
     await newUser.save();
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
-    res.status(500).json({ error: "Registration failed" });
+    console.error("Signup Error:", error);
+    res
+      .status(500)
+      .json({ error: "Registration failed", details: error.message });
   }
 });
 
