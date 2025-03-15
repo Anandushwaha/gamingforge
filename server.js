@@ -11,6 +11,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 import router from "./routes/authRoutes.js";
+import erouter from "./routes/eventRoutes.js";
+app.use("/api/event", erouter);
 app.use("/api/auth", router);
 app.use(
   cors({
