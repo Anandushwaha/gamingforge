@@ -4,6 +4,7 @@ import Team from "../models/Event.js"; // Create a new Team model
 const erouter = express.Router();
 
 // Register Team for Tournament
+// Backend Code (event route)
 erouter.post("/register", async (req, res) => {
   try {
     const {
@@ -13,18 +14,18 @@ erouter.post("/register", async (req, res) => {
       teamName,
       teamMembers,
       collegeName,
-      playerClass,
+      // Remove playerClass here
       playedValorant,
     } = req.body;
 
-    // Validate required fields
+    // Remove playerClass from validation
     if (
       !name ||
       !email ||
       !mobile ||
       !teamName ||
       !collegeName ||
-      !playerClass ||
+      !teamMembers ||
       teamMembers.length !== 5
     ) {
       return res.status(400).json({
@@ -32,7 +33,6 @@ erouter.post("/register", async (req, res) => {
       });
     }
 
-    // Create a new team entry
     const newTeam = new Team({
       name,
       email,
@@ -40,13 +40,12 @@ erouter.post("/register", async (req, res) => {
       teamName,
       teamMembers,
       collegeName,
-      playerClass,
+      // Remove playerClass here
       playedValorant,
     });
 
-    await newTeam.save(); // Save to MongoDB
-
-    res.status(201).json({ message: "Registration successful!" });
+    await newTeam.save();
+    res.status(201).json({ message: "Registration successful!", newTeam });
   } catch (error) {
     console.error("Registration Error:", error);
     res.status(500).json({ error: "Registration failed. Please try again." });
